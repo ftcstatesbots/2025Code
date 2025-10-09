@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode;
+import Commands.*;
+
 @TeleOp
 public class TeleOP extends OpMode{
     @Override
