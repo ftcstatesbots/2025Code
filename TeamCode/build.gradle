@@ -14,15 +14,48 @@
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
 }
 
+repositories {
+    maven {
+        url = "https://mymaven.bylazar.com/releases"
+    }
+    maven {
+        url "https://repo.dairy.foundation/releases"
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+    maven {
+        url = 'https://maven.brott.dev/'
+    }
+}
+
 dependencies {
     implementation project(':FtcRobotController')
+
+    implementation("dev.frozenmilk.dairy:Util:1.1.1")
+    implementation("dev.frozenmilk.dairy:Core:2.2.4")
+    implementation("dev.frozenmilk.mercurial:Mercurial:1.0.3")
+
+    implementation("com.github.Thermal-Equilibrium:homeostasis-FTC:1.0.8")
+
+    implementation ("com.pedropathing:ftc:2.0.3")
+    implementation ("com.pedropathing:telemetry:1.0.0")
+
+    implementation ("com.bylazar:fullpanels:1.0.6")
+    implementation ("androidx.core:core-ktx:1.17.0")
+
+    implementation ("com.acmerobotics.dashboard:dashboard:0.5.0")
 }
