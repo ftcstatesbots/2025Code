@@ -1,34 +1,32 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Launcher extends Thread{
+public class Launcher{
+    boolean PIDEnabled = false;
     DcMotorEx main_motor;
-    double target_speed;
     double main_motor_power;
-    public void reset(){
-        target_speed = 0;
-    }
-    public void set_speed(double speed){
-        target_speed = speed;
-    }
-    public double get_rpm(){
-        return main_motor.getVelocity() / 28.0f;
-    }
-    public void update(){
-        double difference = target_speed - get_rpm();
-        if (difference < 0){
-            difference = Math.abs(difference);
-            main_motor_power += Math.pow(2.0f,difference) - 1;
-        } else if (difference > 0){
-            difference = Math.abs(difference);
-            main_motor_power -= Math.pow(2.0f,difference) - 1;
-        }
-        main_motor.setPower(main_motor_power);
-    }
-    @Override
-    public void run(){
+    double main_motor_speed_target;
+    boolean is_on = true;
+    Custom_PID_controller controller = new Custom_PID_controller();
+    Launcher(DcMotorEx m){main_motor = m;}
 
+    public void setMain_motor_power(double p){
+        main_motor_power = p;
+    }
+    public void setMain_motor_speed_target(double r){
+        main_motor_speed_target = r;
+    }
+    public void start_running(){
+        while (is_on){
+
+        }
+    }
+
+    public void update(){
+        if(PIDEnabled){
+            main_motor_power = controller.get_correct_power(main_motor, main_motor_speed_target);
+        }
+        setMain_motor_power(main_motor_power);
     }
 }
