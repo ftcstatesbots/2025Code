@@ -1,32 +1,34 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
+import com.ThermalEquilibrium.homeostasis.Filters.Estimators.Estimator;
+import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
+import com.ThermalEquilibrium.homeostasis.Systems.BasicSystem;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+@Config
 public class Launcher{
-    boolean PIDEnabled = false;
     DcMotorEx main_motor;
-    double main_motor_power;
-    double main_motor_speed_target;
-    boolean is_on = true;
-    Custom_PID_controller controller = new Custom_PID_controller();
-    Launcher(DcMotorEx m){main_motor = m;}
-
-    public void setMain_motor_power(double p){
-        main_motor_power = p;
+    public boolean is_on = true;
+    public static double Kp = 0.00005f, Ki = 0.0f, Kd = 0.0f, Kf = 0.00038f;
+    public static int target_velocity;
+    PIDCoefficients coefficients = new PIDCoefficients(Kp, Ki, Kd);
+    BasicPID pid = new BasicPID(coefficients);
+    Launcher(DcMotorEx m){main_motor = m; main_motor.setDirection(DcMotorSimple.Direction.REVERSE);}
+//  double update(double target){
+//      return controller.calculate(target, main_motor.getVelocity());
+//  }
+//  void set_velocity(){
+//      main_motor.setPower(update(target_velocity));
+//  }
+    void setTarget_velocity(int v){
+        target_velocity = v;
     }
-    public void setMain_motor_speed_target(double r){
-        main_motor_speed_target = r;
-    }
-    public void start_running(){
-        while (is_on){
-
-        }
-    }
-
-    public void update(){
-        if(PIDEnabled){
-            main_motor_power = controller.get_correct_power(main_motor, main_motor_speed_target);
-        }
-        setMain_motor_power(main_motor_power);
+    void update_velocity(int target){
+        double pwr = pid.calculate(target,main_motor.getVelocity())+Kf*main_motor.getVelocity();
+        setTarget_velocity(target);
+        main_motor.setPower(-pwr);
     }
 }
