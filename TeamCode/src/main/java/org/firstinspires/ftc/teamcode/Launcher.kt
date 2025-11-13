@@ -12,12 +12,19 @@ import dev.frozenmilk.dairy.core.FeatureRegistrar
 import dev.frozenmilk.dairy.core.dependency.Dependency
 import dev.frozenmilk.dairy.core.dependency.annotation.SingleAnnotation
 import dev.frozenmilk.mercurial.Mercurial
+import dev.frozenmilk.mercurial.commands.Lambda
 import dev.frozenmilk.mercurial.subsystems.Subsystem
+import java.lang.annotation.Inherited
 import java.util.function.DoubleSupplier
 
 
 @Config
 class Launcher : Subsystem {
+    @Target(AnnotationTarget.CLASS)
+    @Retention(AnnotationRetention.RUNTIME)
+    @MustBeDocumented
+    @Inherited
+    annotation class Attach
     //configure motor so we can use it in the subsystem without passing it in or waiting for init
     //anti "null object referanced" or wtv
     private val motor by subsystemCell{
@@ -43,4 +50,16 @@ class Launcher : Subsystem {
     //I plan on making a PIDF controller here for velocity. Maybe also a launcher power calculation
 
 
+    fun setSpeed1(): Lambda {
+        // we need to give commands names
+        // names help to give helpful error messages when something goes wrong in your command
+        // Mercurial will automatically rename your command to match the standard convention
+        // learn more about names and error messages in the names and messages overview
+        return Lambda("launcherspeed1")
+            .addRequirements(Launcher)
+            .setInit { }
+            .setEnd { interrupted: Boolean? ->
+
+            }
+    }
 }
