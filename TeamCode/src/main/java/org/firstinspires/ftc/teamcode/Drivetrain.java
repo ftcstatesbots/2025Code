@@ -19,9 +19,7 @@ public class Drivetrain{
         lf_power = powers[3];
     }
     void update_power(Gamepad main_pad, boolean autofind){
-        if (autofind) {
-            pass_power(find_power(main_pad));
-        }
+        if (autofind){pass_power(find_power(main_pad));}
         rb_motor.setPower(rb_power);
         rf_motor.setPower(rf_power);
         lb_motor.setPower(lb_power);
@@ -38,5 +36,8 @@ public class Drivetrain{
             y - x + rx,
             y + x + rx
         };
+    }
+    void update_pos(){
+
     }
 }

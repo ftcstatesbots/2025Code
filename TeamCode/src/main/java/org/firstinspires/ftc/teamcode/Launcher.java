@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class Launcher{
     DcMotorEx main_motor;
     public boolean is_on = true;
-    public static double Kp = 0.00005f, Ki = 0.0f, Kd = 0.0f, Kf = 0.00038f;
+    public static double Kp = 0.0003832f, Ki = 0.00000000000000001f, Kd = 0.0f, Kf = 0.00035f;
     public static int target_velocity;
     PIDCoefficients coefficients = new PIDCoefficients(Kp, Ki, Kd);
     BasicPID pid = new BasicPID(coefficients);
@@ -31,4 +31,5 @@ public class Launcher{
         setTarget_velocity(target);
         main_motor.setPower(-pwr);
     }
+    void start(){main_motor.setPower(.5f);}
 }

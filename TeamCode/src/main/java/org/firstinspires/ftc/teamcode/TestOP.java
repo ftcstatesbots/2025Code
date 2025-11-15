@@ -14,7 +14,7 @@ public class TestOP extends OpMode {
     ElapsedTime et = new ElapsedTime();
     Launcher launcher;
     DcMotorEx main_motor;
-    static int targetVelo =2000;
+    static int targetVelo = 2000;
     @Override
     public void init() {
         main_motor = hardwareMap.get(DcMotorEx.class, "lM");
@@ -23,13 +23,7 @@ public class TestOP extends OpMode {
 
     @Override
     public void loop() {
-        if (et.seconds()<10){
-            launcher.update_velocity(targetVelo);
-        } else if (et.seconds()<20){
-            launcher.update_velocity(1500);
-        }else if (et.seconds()>20){
-            et.reset();
-        }
+        launcher.update_velocity(targetVelo);
         TelemetryPacket tp = new TelemetryPacket();
         tp.put("target", launcher.target_velocity);
         tp.put("realVel", main_motor.getVelocity());
