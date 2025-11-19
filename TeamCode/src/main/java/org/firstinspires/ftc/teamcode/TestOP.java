@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 @Config
 @TeleOp
@@ -14,11 +15,13 @@ public class TestOP extends OpMode {
     ElapsedTime et = new ElapsedTime();
     Launcher launcher;
     DcMotorEx main_motor;
-    static int targetVelo = 2000;
+    VoltageSensor voltageSensor;
+    public static int targetVelo = 2000;
     @Override
     public void init() {
         main_motor = hardwareMap.get(DcMotorEx.class, "lM");
-        launcher = new Launcher(main_motor);
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
+        launcher = new Launcher(main_motor,voltageSensor);
     }
 
     @Override
