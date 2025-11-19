@@ -6,13 +6,10 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 @Config
 @TeleOp
 public class TestOP extends OpMode {
-    ElapsedTime et = new ElapsedTime();
     Launcher launcher;
     DcMotorEx main_motor;
     VoltageSensor voltageSensor;
