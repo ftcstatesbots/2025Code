@@ -31,10 +31,10 @@ public class Drivetrain{
         x = pad.left_stick_x;
         rx = pad.right_stick_x;
         return new double[]{
-            y + x - rx,
-            y - x - rx,
-            y - x + rx,
-            y + x + rx
+            y + x - rx, // rb_power
+            y - x - rx, // rf_power
+            y - x + rx, // lb_power
+            y + x + rx  // lf_power
         };
     }
 }

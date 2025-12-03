@@ -32,13 +32,9 @@ public class TeleOP extends OpMode{
     @Override
     public void loop(){
         main_train.update_power(gamepad1);
-        launcher.update_velocity((int) gamepad1.right_trigger * 300 + 1700);
-        if(gamepad1.a){
-            intakeMotor.setPower(0.7);
-        } else if (gamepad1.b) {
-            intakeMotor.setPower(-0.7);
-        } else {
-            intakeMotor.setPower(0);
-        }
+        launcher.update_velocity((int) gamepad1.right_trigger * 1700);
+        if(gamepad1.a){intakeMotor.setPower(0.7);}
+        else if (gamepad1.b){intakeMotor.setPower(-0.7);}
+        else {intakeMotor.setPower(0);}
     }
 }

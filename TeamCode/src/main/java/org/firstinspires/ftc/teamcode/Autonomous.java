@@ -54,7 +54,7 @@ public class Autonomous extends OpMode {
                     .pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(56.000, 8.000),
+                                    new Pose(follower.getPose().getX(), follower.getPose().getX()),
                                     new Pose(113.480, 64.092),
                                     new Pose(74.000, 63.000),
                                     new Pose(38.012, 33.017)
