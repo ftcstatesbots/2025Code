@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -35,13 +33,5 @@ public class TeleOP extends OpMode{
         if(gamepad1.right_bumper){intakeMotor.setPower(0.7);}
         else if (gamepad1.left_bumper){intakeMotor.setPower(-0.7);}
         else {intakeMotor.setPower(0);}
-
-
-        TelemetryPacket tp = new TelemetryPacket();
-        tp.put("target", launcher.target_velocity);
-        tp.put("realVel", launch_motor.getVelocity());
-        tp.put("pwr", launch_motor.getPower());
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        dashboard.sendTelemetryPacket(tp);
     }
 }
