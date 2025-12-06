@@ -33,5 +33,8 @@ public class TeleOP extends OpMode{
         if(gamepad1.right_bumper){intakeMotor.setPower(0.7);}
         else if (gamepad1.left_bumper){intakeMotor.setPower(-0.7);}
         else {intakeMotor.setPower(0);}
+
+        telemetry.addData("mtr speed", launch_motor.getVelocity());
+        telemetry.update();
     }
 }
