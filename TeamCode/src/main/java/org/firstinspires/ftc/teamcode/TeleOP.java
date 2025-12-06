@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 @TeleOp
@@ -17,24 +20,28 @@ public class TeleOP extends OpMode{
     }
     @Override
     public void init(){
-        DcMotorEx[] motors = {
-            rb_motor = hardwareMap.get(DcMotorEx.class, "right_back_motor"),
-            rf_motor = hardwareMap.get(DcMotorEx.class, "right_front_motor"),
-            lb_motor = hardwareMap.get(DcMotorEx.class, "left_back_motor"),
-            lf_motor = hardwareMap.get(DcMotorEx.class, "left_front_motor")
-        };
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intake_motor");
-        voltageSensor = hardwareMap.get(VoltageSensor.class, "control_hub");
+        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
         launch_motor = hardwareMap.get(DcMotorEx.class, "launcher_motor");
-        main_train = new Drivetrain(motors);
+        main_train = new Drivetrain(hardwareMap);
+        main_train.init();
         launcher = new Launcher(launch_motor, voltageSensor);
     }
     @Override
     public void loop(){
-        main_train.update_power(gamepad1);
-        launcher.update_velocity((int) gamepad1.right_trigger * 1700);
-        if(gamepad1.a){intakeMotor.setPower(0.7);}
-        else if (gamepad1.b){intakeMotor.setPower(-0.7);}
+        main_train.setVectorPower(gamepad1.left_stick_x,-gamepad1.left_stick_y,gamepad1.right_stick_x);
+        launcher.update_velocity((int) gamepad1.right_trigger * 300 + 1500);
+        if(gamepad1.right_bumper){intakeMotor.setPower(0.7);}
+        else if (gamepad1.left_bumper){intakeMotor.setPower(-0.7);}
         else {intakeMotor.setPower(0);}
+
+
+        TelemetryPacket tp = new TelemetryPacket();
+        tp.put("target", launcher.target_velocity);
+        tp.put("realVel", launch_motor.getVelocity());
+        tp.put("pwr", launch_motor.getPower());
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        dashboard.sendTelemetryPacket(tp);
     }
 }

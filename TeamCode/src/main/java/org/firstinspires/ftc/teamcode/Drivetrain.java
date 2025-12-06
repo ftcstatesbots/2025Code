@@ -1,40 +1,44 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Drivetrain{
-    double rb_power, rf_power, lb_power, lf_power;
+    HardwareMap hardwareMap;
     DcMotorEx rb_motor, rf_motor, lb_motor, lf_motor;
-    Drivetrain (DcMotorEx[] motors){
-        rb_motor = motors[0];
-        rf_motor = motors[1];
-        lb_motor = motors[2];
-        lf_motor = motors[3];
+
+    Drivetrain(HardwareMap hw){hardwareMap = hw;}
+
+    public void setPowers(double rb,double rf,double lb,double lf){
+        rb_motor.setPower(rb);
+        rf_motor.setPower(rf);
+        lb_motor.setPower(lb);
+        lf_motor.setPower(lf);
     }
-    void pass_power(double[] powers) {
-        rb_power = powers[0];
-        rf_power = powers[1];
-        lb_power = powers[2];
-        lf_power = powers[3];
+
+    public void setVectorPower(double x, double y, double r){
+        setPowers(
+            y-x-r,
+            y+x-r,
+            y-x+r,
+            y+x+r
+        );
     }
-    void update_power(Gamepad main_pad){
-        pass_power(find_power(main_pad));
-        rb_motor.setPower(rb_power);
-        rf_motor.setPower(rf_power);
-        lb_motor.setPower(lb_power);
-        lf_motor.setPower(lf_power);
-    }
-    double[] find_power(Gamepad pad){
-        double x, y, rx;
-        y = -pad.left_stick_y;
-        x = pad.left_stick_x;
-        rx = pad.right_stick_x;
-        return new double[]{
-            y + x - rx, // rb_power
-            y - x - rx, // rf_power
-            y - x + rx, // lb_power
-            y + x + rx  // lf_power
-        };
+
+    public void init(){
+        rb_motor = hardwareMap.get(DcMotorEx.class, "right_back_motor");
+        rf_motor = hardwareMap.get(DcMotorEx.class, "right_front_motor");
+        lb_motor = hardwareMap.get(DcMotorEx.class, "left_back_motor");
+        lf_motor = hardwareMap.get(DcMotorEx.class, "left_front_motor");
+
+        rb_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rf_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lb_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lf_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        lb_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        lf_motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 }

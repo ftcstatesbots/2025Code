@@ -7,9 +7,10 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-
+@Disabled
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Pedro Pathing Autonomous", group = "Autonomous")
 @Configurable // Panels
 public class Autonomous extends OpMode {

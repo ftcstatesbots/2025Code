@@ -36,7 +36,7 @@ public class Launcher{
                 * (14.0 / voltageSensor.getVoltage())
             );
         setTarget_velocity(target);
-        main_motor.setPower(-pwr);
+        main_motor.setPower(pwr);
     }
     void start(){main_motor.setPower(.5f);}
 }
