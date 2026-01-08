@@ -19,7 +19,7 @@ public class AutomaticOP extends OpMode {
         main_train = new Drivetrain(hardwareMap);
         main_train.init();
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
-        main_launcher = new Launcher(launch_motor, voltageSensor);
+        main_launcher = new Launcher(hardwareMap);
     }
 
     @Override

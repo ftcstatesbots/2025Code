@@ -20,7 +20,7 @@ public class TestOP extends OpMode {
     public void init() {
         main_motor = hardwareMap.get(DcMotorEx.class, "lM");
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
-        launcher = new Launcher(main_motor,voltageSensor);
+        launcher = new Launcher(hardwareMap);
     }
 
     @Override

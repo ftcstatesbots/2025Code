@@ -39,6 +39,8 @@ public class Drivetrain{
         lf_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lb_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        lf_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        lf_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+        rb_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rf_motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 }

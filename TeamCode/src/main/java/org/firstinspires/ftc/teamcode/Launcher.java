@@ -6,8 +6,10 @@ import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.ftccommon.configuration.EditLynxModuleActivity;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,17 +17,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Launcher{
     DcMotorEx main_motor;
     VoltageSensor voltageSensor;
-    public static double Kp = 0.0003832f, Ki = 0.00000000000000001f, Kd = 0.0f, Kf = 0.00035f;
+    public double current_velocity;
+    public static double Kp = 0.001f, Ki = 0.00000000000000001f, Kd = 0.0f, Kf = 0.0005f;
     public static int target_velocity;
     public static int max_error = 2000;
-    public static double burnout_timer = 1;
+    public static double burnout_timer = 2;
     PIDCoefficients coefficients = new PIDCoefficients(Kp, Ki, Kd);
     BasicPID pid = new BasicPID(coefficients);
     ElapsedTime et = new ElapsedTime();
-    Launcher(DcMotorEx m, VoltageSensor vs){
-        main_motor = m;
+    Launcher(HardwareMap hw){
+        main_motor=hw.get(DcMotorEx.class, "launcher_motor");
         main_motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        voltageSensor = vs;
+        voltageSensor = hw.get(VoltageSensor.class, "Control Hub");
+        main_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        burnout_timer = 2;
     }
 //  double update(double target){
 //      return controller.calculate(target, main_motor.getVelocity());
@@ -37,13 +42,14 @@ public class Launcher{
         target_velocity = v;
     }
     void update_velocity(int target){
+        current_velocity = main_motor.getVelocity();
         double pwr = pid.calculate(target,
-                main_motor.getVelocity()
-        ) + (Kf * main_motor.getVelocity()
+                current_velocity
+        ) + (Kf * current_velocity
                 * (14.0 / voltageSensor.getVoltage())
             );
         setTarget_velocity(target);
-        if(main_motor.getVelocity()>50) {
+        if(current_velocity>20) {
             et.reset();
         }
         if(et.seconds()>burnout_timer){
@@ -51,5 +57,7 @@ public class Launcher{
         }
         main_motor.setPower(pwr);
     }
-    void start(){main_motor.setPower(.5f);}
+    public void end(){
+        main_motor.setPower(0);
+    }
 }
