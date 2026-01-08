@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
-import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class Launcher {
@@ -16,9 +14,7 @@ public class Launcher {
         if (cruise_control){
              if (pad.leftBumperWasPressed() && speed > 0) speed--;
              else if (pad.rightBumperWasPressed() && speed < Byte.MAX_VALUE) speed++;
-             else {
 
-             }
         }
         else main_motor.setPower(pad.right_trigger);
     }

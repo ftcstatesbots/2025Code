@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.IMU;
 
 @TeleOp
 public class TeleOP extends OpMode {
@@ -13,6 +14,7 @@ public class TeleOP extends OpMode {
             left_back_motor, left_front_motor;
     Drivetrain main_train;
     Launcher launcher;
+    IMU the_imu;
 
     @Override
     public void init(){
@@ -36,7 +38,8 @@ public class TeleOP extends OpMode {
         right_front_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         left_back_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         left_front_motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        main_train = new Drivetrain(train_motors);
+        the_imu = hardwareMap.get(IMU.class, "imu");
+        main_train = new Drivetrain(train_motors, the_imu);
     }
     @Override
     public void loop(){
