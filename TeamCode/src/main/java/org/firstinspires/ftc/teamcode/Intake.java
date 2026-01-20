@@ -13,9 +13,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Intake {
     DcMotorEx main_motor;
     VoltageSensor voltageSensor;
-    public static double Kp = 0.005f, Ki = 0.00000000000000001f, Kd = 0.0f;
+    public static double Kp = 0.03f, Ki = 0.00000000000000001f, Kd = 0.0f;
     public static int target_pos;
-    public static int stepSize = 180;
+    public static int stepSize = 15+
+            ;
     public int current_pos;
     public double pwr;
     PIDCoefficients coefficients = new PIDCoefficients(Kp, Ki, Kd);
@@ -25,6 +26,7 @@ public class Intake {
         main_motor=hw.get(DcMotorEx.class, "intake_motor");
         main_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         voltageSensor = hw.get(VoltageSensor.class, "Control Hub");
+        current_pos = 0;
     }
     void setTarget_pos(int v){
         target_pos = v;

@@ -26,7 +26,7 @@ public class TeleOP extends OpMode{
     }
     @Override
     public void loop(){
-        main_train.setVectorPower(gamepad1.left_stick_x,-gamepad1.left_stick_y,gamepad1.right_stick_x);
+        main_train.setVectorPower(-gamepad1.left_stick_x,-gamepad1.left_stick_y,gamepad1.right_stick_x);
         launcher.update_velocity((int) gamepad1.right_trigger * 1500 + 1500);
         if(gamepad1.right_bumper){
             intake.intakeStep(true);
@@ -34,6 +34,7 @@ public class TeleOP extends OpMode{
             intake.intakeStep(false);
         }
         if(gamepad1.optionsWasPressed()) Launcher.burnout_timer=-1;
+        if(gamepad1.shareWasPressed()) main_train.resetHeading();
 
         intake.update_pos();
         telemetry.addData("Lvelo", launcher.current_velocity);

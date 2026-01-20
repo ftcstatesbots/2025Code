@@ -21,7 +21,7 @@ public class Launcher{
     public static double Kp = 0.001f, Ki = 0.00000000000000001f, Kd = 0.0f, Kf = 0.0005f;
     public static int target_velocity;
     public static int max_error = 2000;
-    public static double burnout_timer = 2;
+    public static double burnout_timer = 3;
     PIDCoefficients coefficients = new PIDCoefficients(Kp, Ki, Kd);
     BasicPID pid = new BasicPID(coefficients);
     ElapsedTime et = new ElapsedTime();
