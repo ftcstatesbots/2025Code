@@ -5,7 +5,11 @@ import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.localization.Encoder;
 import com.pedropathing.ftc.localization.constants.DriveEncoderConstants;
+import com.pedropathing.ftc.localization.constants.PinpointConstants;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
     public static double
@@ -32,7 +36,7 @@ public class Constants {
             1,
             1
     );
-*/
+
     public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
             .rightFrontMotorName("mEX_rightFront")
             .rightRearMotorName("mEX_rightBack")
@@ -45,11 +49,21 @@ public class Constants {
             .forwardTicksToInches(forward_TTI)
             .strafeTicksToInches(strafe_TTI)
             .turnTicksToInches(turn_TTI);
+*/
 
+    public static PinpointConstants localizerConstants = new PinpointConstants()
+            .forwardPodY(-5)
+            .strafePodX(0.5)
+            .distanceUnit(DistanceUnit.INCH)
+            .hardwareMapName("localizer")
+            .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+            .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+            .forwardPodY(null)
+            .strafePodX(null);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
-                .driveEncoderLocalizer(localizerConstants)
                 .build();
     }
 }
